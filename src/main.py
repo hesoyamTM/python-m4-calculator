@@ -1,20 +1,19 @@
-from src.power import power_function
-from src.constants import SAMPLE_CONSTANT
+from src.application.calculator.calculator_service import Service
+from src.delivery.cli.cli import CalculatorCLI
+from src.domain.calculator import Calculator
 
 
 def main() -> None:
     """
-    Обязательнная составляющая программ, которые сдаются. Является точкой входа в приложение
-    :return: Данная функция ничего не возвращает
+    It is the entry point to the application
     """
 
-    target, degree = map(int, input("Введите два числа разделенные пробелом: ").split(" "))
+    calculator = Calculator()
+    calc_service = Service(calculator)
+    calculator_cli = CalculatorCLI(calc_service)
 
-    result = power_function(target=target, power=degree)
+    calculator_cli.listen_and_serve()
 
-    print(result)
-
-    print(SAMPLE_CONSTANT)
 
 if __name__ == "__main__":
     main()
