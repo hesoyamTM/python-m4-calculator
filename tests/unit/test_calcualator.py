@@ -300,9 +300,9 @@ def test_assign_var_does_not_exist() -> None:
         ),
     ],
 )
-def test_parse_and_compute_simple(expr: str, expected: float) -> None:
+def test_compute_with_vars_simple(expr: str, expected: float) -> None:
     calculator = Calculator()
-    assert math.isclose(calculator.parse_and_compute(expr), expected)
+    assert math.isclose(calculator.compute_with_vars(expr), expected)
 
 
 def a(alpha, beta, gamma, delta):
@@ -392,7 +392,7 @@ def f(x, y, z, w, v, u, t):
         ),
     ],
 )
-def test_parse_and_compute_custom_functions(expr: str, expected: float) -> None:
+def test_compute_with_vars_custom_functions(expr: str, expected: float) -> None:
     calculator = Calculator()
 
     calculator.assign_function(
@@ -426,8 +426,8 @@ def test_parse_and_compute_custom_functions(expr: str, expected: float) -> None:
         "(a(x, y, z, w) * b(y, z, w, v, u) - c(z, w, v, u, t, x)) // (abs(d(x, y, z, w, v, u, t)) % (abs(e(y, z, w, v, u, t, x)) + 1) + 1)",
     )
 
-    print(calculator.parse_and_compute(expr), expected)
-    assert math.isclose(calculator.parse_and_compute(expr), expected)
+    print(calculator.compute_with_vars(expr), expected)
+    assert math.isclose(calculator.compute_with_vars(expr), expected)
 
 
 @pytest.mark.parametrize(
@@ -442,7 +442,7 @@ def test_parse_and_compute_custom_functions(expr: str, expected: float) -> None:
         ["(12 + 3", InputError],
     ],
 )
-def test_parse_and_compute_errors(expr: str, expected_error: type) -> None:
+def test_compute_with_vars_errors(expr: str, expected_error: type) -> None:
     with pytest.raises(expected_error) as err_info:
-        Calculator().parse_and_compute(expr)
+        Calculator().compute_with_vars(expr)
     assert err_info.type is expected_error

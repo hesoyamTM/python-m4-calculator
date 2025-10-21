@@ -63,7 +63,7 @@ def test_compute_happy_path(
     var_names: list[str], expression: str, agrs: list[str], expected: float
 ) -> None:
     calc_func = CalcFunction(
-        Calculator().parse_and_compute_with_vars, "test", var_names, expression
+        Calculator().compute_with_local_vars, "test", var_names, expression
     )
     assert math.isclose(calc_func.compute(agrs, True), expected)
 
@@ -95,7 +95,7 @@ def test_compute_errors(
     err_message: str,
 ) -> None:
     calc_func = CalcFunction(
-        Calculator().parse_and_compute_with_vars, "test", var_names, expression
+        Calculator().compute_with_local_vars, "test", var_names, expression
     )
     with pytest.raises(error_type) as err_info:
         calc_func.compute(args, True)
