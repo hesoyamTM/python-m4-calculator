@@ -1,7 +1,17 @@
 from src.domain.errors import InputError
+from abc import ABC, abstractmethod
 
 
-class CalcFunction:
+class Function(ABC):
+    """Represents function of calculator"""
+
+    @abstractmethod
+    def compute(self, vars: list, debug: bool) -> float:
+        """Compute function expression"""
+        pass
+
+
+class CalcFunction(Function):
     """Represents custom function of calculator"""
 
     _expression: str
@@ -34,7 +44,7 @@ class CalcFunction:
         return res
 
 
-class SystemFunction:
+class SystemFunction(Function):
     """Represents system function of calculator"""
 
     name: str

@@ -12,7 +12,7 @@ class Service(CalculatorService):
 
     def compute(self, expression: str) -> float:
         """Computes math expression"""
-        return self._calculator.parse_and_compute(expression)
+        return self._calculator.compute_with_vars(expression)
 
     def assign_function(self, name: str, args: list[str], expression: str) -> None:
         """Create new function"""

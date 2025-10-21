@@ -29,10 +29,10 @@ class Calculator:
         self._variables = {"DEBUG": 0}
 
         sqrt_func = CalcFunction(
-            self.parse_and_compute_with_vars, "sqrt", ["a"], "a ** (1/2)"
+            self.compute_with_local_vars, "sqrt", ["a"], "a ** (1/2)"
         )
         pow_func = CalcFunction(
-            self.parse_and_compute_with_vars, "pow", ["a", "b"], "a ** b"
+            self.compute_with_local_vars, "pow", ["a", "b"], "a ** b"
         )
         abs_func = SystemFunction("abs", abs)
         max_func = SystemFunction("max", max)
@@ -53,7 +53,7 @@ class Calculator:
             raise InputError('function "{}" already exists'.format(name))
 
         func = CalcFunction(
-            self.parse_and_compute_with_vars,
+            self.compute_with_local_vars,
             name,
             args,
             expression,
@@ -66,7 +66,7 @@ class Calculator:
         if name in self._variables:
             raise InputError('variable "{}" already exists'.format(name))
 
-        computed_value = self.parse_and_compute(value)
+        computed_value = self.compute_with_vars(value)
 
         self._variables[name] = computed_value
 
@@ -76,11 +76,11 @@ class Calculator:
         if name not in self._variables:
             raise InputError('variable "{}" is not exists'.format(name))
 
-        var_value = self.parse_and_compute(value)
+        var_value = self.compute_with_vars(value)
 
         self._variables[name] = var_value
 
-    def parse_and_compute_with_vars(self, data: str, vars: dict) -> float:
+    def compute_with_local_vars(self, data: str, vars: dict) -> float:
         """Parse with local variables and compute expression"""
 
         for var, value in vars.items():
@@ -113,7 +113,7 @@ class Calculator:
                     str(
                         func_compute(
                             [
-                                str(self.parse_and_compute(num))
+                                str(self.compute_with_vars(num))
                                 for num in self._split_arguments(data[start:end])
                             ],
                             self._variables["DEBUG"] == 1,
@@ -143,9 +143,9 @@ class Calculator:
 
         yield args[left_ptr:]
 
-    def parse_and_compute(self, data: str) -> float:
+    def compute_with_vars(self, data: str) -> float:
         """Parse global variables and functions and compute expression"""
-        return self.parse_and_compute_with_vars(data, {})
+        return self.compute_with_local_vars(data, {})
 
     def compute(self, expr: str) -> float:
         """Read input expression and compute it"""

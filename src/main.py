@@ -8,11 +8,11 @@ def main() -> None:
     It is the entry point to the application
     """
 
-    calculator = Calculator()
-    calc_service = Service(calculator)
-    calculator_cli = CalculatorCLI(calc_service)
+    calculator: Calculator = Calculator()
+    calc_service: Service = Service(calculator)
+    calculator_cli: CalculatorCLI = CalculatorCLI(calc_service)
 
-    calculator_cli.listen_and_serve()
+    calculator_cli.serve()
 
 
 if __name__ == "__main__":
